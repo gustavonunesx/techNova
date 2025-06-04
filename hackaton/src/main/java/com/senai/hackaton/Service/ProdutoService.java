@@ -20,16 +20,24 @@ public class ProdutoService {
         ProdutoOutputDTO dto = new ProdutoOutputDTO();
         dto.setIdProduto(produto.getIdProduto());
         dto.setNome(produto.getNome());
+        dto.setTextoDescritivo(produto.getTextoDescritivo());
+        dto.setCor(produto.getCor());
+        dto.setFabricante(produto.getFabricante());
         dto.setPreco(produto.getPreco());
         dto.setQuantidade(produto.getQuantidade());
+        dto.setImagens(produto.getImagens());
         return dto;
     }
 
     private Produto convertToEntity(ProdutoInputDTO dto) {
         Produto produto = new Produto();
         produto.setNome(dto.getNome());
+        produto.setTextoDescritivo(dto.getTextoDescritivo());
+        produto.setCor(dto.getCor());
+        produto.setFabricante(dto.getFabricante());
         produto.setPreco(dto.getPreco());
         produto.setQuantidade(dto.getQuantidade());
+        produto.setImagens(dto.getImagens());
         return produto;
     }
 
@@ -78,4 +86,5 @@ public class ProdutoService {
         }
         return false;
     }
+
 }

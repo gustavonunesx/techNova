@@ -22,7 +22,13 @@ public class ProdutoController {
         ProdutoOutputDTO novoProduto = produtoService.criarProduto(produtoInputDTO);
         return new ResponseEntity<>(novoProduto, HttpStatus.CREATED);
     }
-
+    @PostMapping("/{id}/imagens")
+    public ResponseEntity<ProdutoOutputDTO> adicionarImagens(
+            @PathVariable Long id,
+            @RequestBody List<String> novasImagens) {
+        ProdutoOutputDTO produtoAtualizado = produtoService.adicionarImagens(id, novasImagens);
+        return ResponseEntity.ok(produtoAtualizado);
+    }
     @GetMapping("/get")
     public ResponseEntity<List<ProdutoOutputDTO>> listarTodosProdutos() {
         List<ProdutoOutputDTO> produtos = produtoService.buscarTodosProdutos();

@@ -86,5 +86,18 @@ public class ProdutoService {
         }
         return false;
     }
-
+    public ProdutoOutputDTO adicionarImagens(Long idProduto, List<String> novasImagens) {
+        return produtoRepository.findById(idProduto)
+                .map(produto -> {
+                    List<String> imagensExistentes = produto.getImagens();
+                    if (imagensExistentes == null) {
+                        produto.setImagens(novasImagens);
+                    } else {
+                        imagensExistentes.addAll(novasImagens);
+                    }
+                    Produto produtoAtualizado = produtoRepository.save(produto);
+                    return convertToDTO(produtoAtualizado);
+                })
+                .orElseThrow(() -> new RuntimeException("Produto não encontrado com ID: " + idProduto));
+    }
 }

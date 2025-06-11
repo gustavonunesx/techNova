@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', () => {
   // Elementos DOM
   const produtosGrid = document.querySelector('.produtos-grid');
   const searchInput = document.querySelector('.search-box input');
@@ -8,105 +8,14 @@ document.addEventListener('DOMContentLoaded', function() {
   const modal = document.getElementById('confirmacao-modal');
   const modalConfirmar = document.querySelector('.btn-confirmar');
   const modalCancelar = document.querySelector('.btn-cancelar');
-  
+  const logoutButton = document.querySelector('.btn-logout');
+
   // Variáveis de estado
-  let produtos = [];
+  let produtos = []; // Única declaração de produtos
   let produtosFiltrados = [];
   let produtoParaExcluir = null;
   let paginaAtual = 1;
   const produtosPorPagina = 6;
-
-  // Dados mockados (substituir por API real)
-  const mockProdutos = [
-    {
-      id: 1,
-      nome: 'Smartphone Premium',
-      descricao: 'Smartphone com tela de 6.5", 128GB de armazenamento e câmera tripla.',
-      categoria: 'Eletrônicos',
-      preco: 2799.99,
-      precoOriginal: null,
-      estoque: 15,
-      imagem: 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
-      badge: 'Mais Vendido'
-    },
-    {
-      id: 2,
-      nome: 'Tênis Esportivo',
-      descricao: 'Tênis para corrida com amortecimento e solado antiderrapante.',
-      categoria: 'Calçados',
-      preco: 349.90,
-      precoOriginal: null,
-      estoque: 8,
-      imagem: 'https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
-      badge: null
-    },
-    {
-      id: 3,
-      nome: 'Smart TV 55" 4K',
-      descricao: 'TV inteligente com resolução 4K, HDR e sistema operacional integrado.',
-      categoria: 'Eletrônicos',
-      preco: 3599.00,
-      precoOriginal: null,
-      estoque: 5,
-      imagem: 'https://images.unsplash.com/photo-1560343090-f0409e92791a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
-      badge: 'Novidade'
-    },
-    {
-      id: 4,
-      nome: 'Cafeteira Premium',
-      descricao: 'Cafeteira automática com moedor integrado e preparo programável.',
-      categoria: 'Eletrodomésticos',
-      preco: 899.00,
-      precoOriginal: null,
-      estoque: 12,
-      imagem: 'https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
-      badge: null
-    },
-    {
-      id: 5,
-      nome: 'Relógio Inteligente',
-      descricao: 'Monitor de atividades físicas, notificações e resistente à água.',
-      categoria: 'Acessórios',
-      preco: 399.90,
-      precoOriginal: 499.90,
-      estoque: 7,
-      imagem: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
-      badge: 'Promoção'
-    },
-    {
-      id: 6,
-      nome: 'Tênis de Corrida',
-      descricao: 'Leve e confortável para corridas de longa distância.',
-      categoria: 'Calçados',
-      preco: 279.90,
-      precoOriginal: null,
-      estoque: 10,
-      imagem: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
-      badge: null
-    },
-    {
-      id: 7,
-      nome: 'Fone de Ouvido Bluetooth',
-      descricao: 'Cancelamento de ruído e 30h de bateria.',
-      categoria: 'Eletrônicos',
-      preco: 599.90,
-      precoOriginal: null,
-      estoque: 9,
-      imagem: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
-      badge: null
-    },
-    {
-      id: 8,
-      nome: 'Mochila para Notebook',
-      descricao: 'Resistente à água com compartimento acolchoado para notebook.',
-      categoria: 'Acessórios',
-      preco: 199.90,
-      precoOriginal: 249.90,
-      estoque: 14,
-      imagem: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
-      badge: 'Promoção'
-    }
-  ];
 
   // Inicialização
   function init() {
@@ -114,52 +23,74 @@ document.addEventListener('DOMContentLoaded', function() {
     setupEventListeners();
   }
 
-  // Carregar produtos (mockado - substituir por chamada API)
-  function carregarProdutos() {
-    // Simular carregamento assíncrono
-    setTimeout(() => {
-      produtos = mockProdutos;
+  // Carregar produtos via API
+  async function carregarProdutos() {
+    try {
+      produtosGrid.innerHTML = `
+        <div class="loading">
+          <i class="fas fa-spinner fa-spin"></i>
+          <p>Carregando produtos...</p>
+        </div>
+      `;
+
+      produtos = await window.ApiService.ProdutoService.getAll();
+      atualizarFiltroCategorias();
+      atualizarEstatisticas();
       filtrarProdutos();
-    }, 500);
+    } catch (error) {
+      console.error('Erro ao carregar produtos:', error);
+      produtosGrid.innerHTML = `
+        <div class="sem-resultados">
+          <i class="fas fa-exclamation-circle"></i>
+          <p>Erro ao carregar produtos. Tente novamente mais tarde.</p>
+        </div>
+      `;
+    }
   }
 
   // Configurar event listeners
   function setupEventListeners() {
-    // Busca
-    // @ts-ignore
     searchButton.addEventListener('click', filtrarProdutos);
-    // @ts-ignore
-    searchInput.addEventListener('keyup', function(e) {
-      // @ts-ignore
+    searchInput.addEventListener('keyup', (e) => {
       if (e.key === 'Enter') filtrarProdutos();
     });
 
-    // Filtro por categoria
-    // @ts-ignore
-    filterSelect.addEventListener('change', function() {
+    filterSelect.addEventListener('change', () => {
       paginaAtual = 1;
       filtrarProdutos();
     });
 
-    // Modal
-    // @ts-ignore
     modalCancelar.addEventListener('click', fecharModal);
-    // @ts-ignore
     modalConfirmar.addEventListener('click', confirmarExclusao);
 
-    // Logout
-    // @ts-ignore
-    document.querySelector('.btn-logout').addEventListener('click', function() {
-      // Implementar lógica de logout
+    logoutButton.addEventListener('click', () => {
       alert('Logout realizado com sucesso!');
     });
   }
 
+  // Atualizar filtro de categorias dinamicamente
+  function atualizarFiltroCategorias() {
+    const categorias = ['Todos', ...new Set(produtos.map(p => p.categoria))];
+    filterSelect.innerHTML = categorias.map(cat => `<option value="${cat}">${cat}</option>`).join('');
+  }
+
+  // Atualizar estatísticas
+  function atualizarEstatisticas() {
+    const totalProdutos = produtos.length;
+    const totalCategorias = new Set(produtos.map(p => p.categoria)).size;
+    const valorEstoque = produtos.reduce((sum, p) => sum + (p.preco * p.estoque), 0);
+
+    const statCards = document.querySelectorAll('#inicio .stats .stat-card');
+    if (statCards.length >= 3) {
+      statCards[0].querySelector('.stat-number').textContent = totalProdutos.toString();
+      statCards[1].querySelector('.stat-number').textContent = totalCategorias.toString();
+      statCards[2].querySelector('.stat-number').textContent = formatarMoeda(valorEstoque);
+    }
+  }
+
   // Filtrar produtos por busca e categoria
   function filtrarProdutos() {
-    // @ts-ignore
     const termoBusca = searchInput.value.toLowerCase();
-    // @ts-ignore
     const categoriaSelecionada = filterSelect.value;
 
     produtosFiltrados = produtos.filter(produto => {
@@ -181,11 +112,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const fim = inicio + produtosPorPagina;
     const produtosPagina = produtosFiltrados.slice(inicio, fim);
 
-    // @ts-ignore
     produtosGrid.innerHTML = '';
 
     if (produtosPagina.length === 0) {
-      // @ts-ignore
       produtosGrid.innerHTML = `
         <div class="sem-resultados">
           <i class="fas fa-box-open"></i>
@@ -197,7 +126,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     produtosPagina.forEach(produto => {
       const produtoCard = criarCardProduto(produto);
-      // @ts-ignore
       produtosGrid.appendChild(produtoCard);
     });
   }
@@ -206,7 +134,7 @@ document.addEventListener('DOMContentLoaded', function() {
   function criarCardProduto(produto) {
     const card = document.createElement('div');
     card.className = 'produto-card';
-    card.dataset.id = produto.id;
+    card.dataset.id = produto.id.toString();
 
     let badgeHTML = '';
     if (produto.badge) {
@@ -243,10 +171,7 @@ document.addEventListener('DOMContentLoaded', function() {
       </div>
     `;
 
-    // Adicionar event listeners aos botões
-    // @ts-ignore
     card.querySelector('.btn-editar').addEventListener('click', () => editarProduto(produto.id));
-    // @ts-ignore
     card.querySelector('.btn-excluir').addEventListener('click', () => abrirModalExclusao(produto.id));
 
     return card;
@@ -256,12 +181,10 @@ document.addEventListener('DOMContentLoaded', function() {
   function atualizarPaginacao() {
     const totalPaginas = Math.ceil(produtosFiltrados.length / produtosPorPagina);
     
-    // @ts-ignore
     paginacao.innerHTML = '';
     
     if (totalPaginas <= 1) return;
     
-    // Botão anterior
     const btnAnterior = document.createElement('button');
     btnAnterior.className = 'pagina-btn';
     btnAnterior.innerHTML = '<i class="fas fa-chevron-left"></i>';
@@ -272,24 +195,19 @@ document.addEventListener('DOMContentLoaded', function() {
         renderizarProdutos();
       }
     });
-    // @ts-ignore
     paginacao.appendChild(btnAnterior);
     
-    // Números das páginas
     for (let i = 1; i <= totalPaginas; i++) {
       const btnPagina = document.createElement('button');
       btnPagina.className = `pagina-btn ${i === paginaAtual ? 'active' : ''}`;
-      // @ts-ignore
-      btnPagina.textContent = i;
+      btnPagina.textContent = i.toString();
       btnPagina.addEventListener('click', () => {
         paginaAtual = i;
         renderizarProdutos();
       });
-      // @ts-ignore
       paginacao.appendChild(btnPagina);
     }
     
-    // Botão próximo
     const btnProximo = document.createElement('button');
     btnProximo.className = 'pagina-btn';
     btnProximo.innerHTML = '<i class="fas fa-chevron-right"></i>';
@@ -300,48 +218,48 @@ document.addEventListener('DOMContentLoaded', function() {
         renderizarProdutos();
       }
     });
-    // @ts-ignore
     paginacao.appendChild(btnProximo);
   }
 
   // Abrir modal de confirmação de exclusão
   function abrirModalExclusao(produtoId) {
     produtoParaExcluir = produtoId;
-    // @ts-ignore
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
   }
 
   // Fechar modal
   function fecharModal() {
-    // @ts-ignore
     modal.classList.remove('active');
     document.body.style.overflow = 'auto';
     produtoParaExcluir = null;
   }
 
   // Confirmar exclusão de produto
-  function confirmarExclusao() {
+  async function confirmarExclusao() {
     if (!produtoParaExcluir) {
       fecharModal();
       return;
     }
     
-    // Simular exclusão (substituir por chamada API)
-    setTimeout(() => {
+    try {
+      await window.ApiService.ProdutoService.delete(produtoParaExcluir);
       produtos = produtos.filter(p => p.id !== produtoParaExcluir);
       mostrarMensagem('Produto excluído com sucesso!', 'success');
+      atualizarEstatisticas();
       filtrarProdutos();
       fecharModal();
-    }, 800);
+    } catch (error) {
+      console.error('Erro ao excluir produto:', error);
+      mostrarMensagem('Erro ao excluir produto!', 'error');
+    }
   }
 
   // Editar produto (redireciona para página de edição)
   function editarProduto(produtoId) {
-    // Simular redirecionamento para página de edição
     console.log(`Redirecionando para edição do produto ${produtoId}`);
-    // window.location.href = `/editar-produto.html?id=${produtoId}`;
     mostrarMensagem(`Editando produto ID: ${produtoId}`, 'info');
+    // window.location.href = `/cadastro.html?id=${produtoId}`; // Ajuste para a página de edição
   }
 
   // Mostrar mensagem de feedback

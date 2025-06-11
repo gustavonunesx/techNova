@@ -9,7 +9,6 @@
   <link rel="stylesheet" href="/css/produto.css" />
 </head>
 <body>
-
   <!-- Header melhorado -->
   <header class="site-header">
     <div class="container">
@@ -34,15 +33,15 @@
       <p>Gerencie seu catálogo de produtos de forma simples e eficiente.</p>
       <div class="stats">
         <div class="stat-card">
-          <span class="stat-number">24</span>
+          <span class="stat-number">0</span> <!-- Será atualizado dinamicamente -->
           <span class="stat-label">Produtos Ativos</span>
         </div>
         <div class="stat-card">
-          <span class="stat-number">5</span>
+          <span class="stat-number">0</span> <!-- Será atualizado dinamicamente -->
           <span class="stat-label">Categorias</span>
         </div>
         <div class="stat-card">
-          <span class="stat-number">R$ 12.459</span>
+          <span class="stat-number">R$ 0,00</span> <!-- Será atualizado dinamicamente -->
           <span class="stat-label">Valor em Estoque</span>
         </div>
       </div>
@@ -60,151 +59,33 @@
             <button><i class="fas fa-search"></i></button>
           </div>
           <select class="filter-select">
-            <option>Todos</option>
-            <option>Eletrônicos</option>
-            <option>Roupas</option>
-            <option>Alimentos</option>
-            <option>Casa</option>
+            <option value="Todos">Todos</option>
+            <option value="Eletrônicos">Eletrônicos</option>
+            <option value="Calçados">Calçados</option>
+            <option value="Eletrodomésticos">Eletrodomésticos</option>
+            <option value="Acessórios">Acessórios</option>
           </select>
-          <a href="/cadastro.html" class="btn-primary">
+          <a href="cadastro.html" class="btn-primary">
             <i class="fas fa-plus"></i> Adicionar Produto
           </a>
         </div>
       </div>
       
       <div class="produtos-grid">
-        <!-- Produto 1 -->
-        <div class="produto-card">
-          <div class="produto-badge">Mais Vendido</div>
-          <div class="produto-imagem" style="background-image: url('https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60');"></div>
-          <div class="produto-info">
-            <h3>Smartphone Premium</h3>
-            <p class="produto-descricao">Smartphone com tela de 6.5", 128GB de armazenamento e câmera tripla.</p>
-            <div class="produto-meta">
-              <span class="produto-categoria">Eletrônicos</span>
-              <span class="produto-estoque"><i class="fas fa-box-open"></i> 15 unidades</span>
-            </div>
-            <p class="produto-preco">R$ 2.799,99</p>
-            <div class="produto-acoes">
-              <button class="btn-editar"><i class="fas fa-edit"></i> Editar</button>
-              <button class="btn-excluir"><i class="fas fa-trash-alt"></i> Excluir</button>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Produto 2 -->
-        <div class="produto-card">
-          <div class="produto-imagem" style="background-image: url('https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60');"></div>
-          <div class="produto-info">
-            <h3>Tênis Esportivo</h3>
-            <p class="produto-descricao">Tênis para corrida com amortecimento e solado antiderrapante.</p>
-            <div class="produto-meta">
-              <span class="produto-categoria">Calçados</span>
-              <span class="produto-estoque"><i class="fas fa-box-open"></i> 8 unidades</span>
-            </div>
-            <p class="produto-preco">R$ 349,90</p>
-            <div class="produto-acoes">
-              <button class="btn-editar"><i class="fas fa-edit"></i> Editar</button>
-              <button class="btn-excluir"><i class="fas fa-trash-alt"></i> Excluir</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Produto 3 -->
-        <div class="produto-card">
-          <div class="produto-badge">Novidade</div>
-          <div class="produto-imagem" style="background-image: url('https://images.unsplash.com/photo-1560343090-f0409e92791a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60');"></div>
-          <div class="produto-info">
-            <h3>Smart TV 55" 4K</h3>
-            <p class="produto-descricao">TV inteligente com resolução 4K, HDR e sistema operacional integrado.</p>
-            <div class="produto-meta">
-              <span class="produto-categoria">Eletrônicos</span>
-              <span class="produto-estoque"><i class="fas fa-box-open"></i> 5 unidades</span>
-            </div>
-            <p class="produto-preco">R$ 3.599,00</p>
-            <div class="produto-acoes">
-              <button class="btn-editar"><i class="fas fa-edit"></i> Editar</button>
-              <button class="btn-excluir"><i class="fas fa-trash-alt"></i> Excluir</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Produto 4 -->
-        <div class="produto-card">
-          <div class="produto-imagem" style="background-image: url('https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60');"></div>
-          <div class="produto-info">
-            <h3>Cafeteira Premium</h3>
-            <p class="produto-descricao">Cafeteira automática com moedor integrado e preparo programável.</p>
-            <div class="produto-meta">
-              <span class="produto-categoria">Eletrodomésticos</span>
-              <span class="produto-estoque"><i class="fas fa-box-open"></i> 12 unidades</span>
-            </div>
-            <p class="produto-preco">R$ 899,00</p>
-            <div class="produto-acoes">
-              <button class="btn-editar"><i class="fas fa-edit"></i> Editar</button>
-              <button class="btn-excluir"><i class="fas fa-trash-alt"></i> Excluir</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Produto 5 -->
-        <div class="produto-card">
-          <div class="produto-badge">Promoção</div>
-          <div class="produto-imagem" style="background-image: url('https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60');"></div>
-          <div class="produto-info">
-            <h3>Relógio Inteligente</h3>
-            <p class="produto-descricao">Monitor de atividades físicas, notificações e resistente à água.</p>
-            <div class="produto-meta">
-              <span class="produto-categoria">Acessórios</span>
-              <span class="produto-estoque"><i class="fas fa-box-open"></i> 7 unidades</span>
-            </div>
-            <div class="preco-promocional">
-              <span class="preco-antigo">R$ 499,90</span>
-              <span class="produto-preco">R$ 399,90</span>
-            </div>
-            <div class="produto-acoes">
-              <button class="btn-editar"><i class="fas fa-edit"></i> Editar</button>
-              <button class="btn-excluir"><i class="fas fa-trash-alt"></i> Excluir</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Produto 6 -->
-        <div class="produto-card">
-          <div class="produto-imagem" style="background-image: url('https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60');"></div>
-          <div class="produto-info">
-            <h3>Tênis de Corrida</h3>
-            <p class="produto-descricao">Leve e confortável para corridas de longa distância.</p>
-            <div class="produto-meta">
-              <span class="produto-categoria">Calçados</span>
-              <span class="produto-estoque"><i class="fas fa-box-open"></i> 10 unidades</span>
-            </div>
-            <p class="produto-preco">R$ 279,90</p>
-            <div class="produto-acoes">
-              <button class="btn-editar"><i class="fas fa-edit"></i> Editar</button>
-              <button class="btn-excluir"><i class="fas fa-trash-alt"></i> Excluir</button>
-            </div>
-          </div>
-        </div>
+        <!-- Produtos serão renderizados dinamicamente -->
       </div>
 
-      <!-- Paginação -->
-      <div class="paginacao">
-        <button class="pagina-btn"><i class="fas fa-chevron-left"></i></button>
-        <button class="pagina-btn active">1</button>
-        <button class="pagina-btn">2</button>
-        <button class="pagina-btn">3</button>
-        <button class="pagina-btn"><i class="fas fa-chevron-right"></i></button>
-      </div>
+      <!-- Paginação será gerada dinamicamente -->
+      <div class="paginacao"></div>
     </div>
   </section>
 
   <!-- Modal de Confirmação de Exclusão -->
   <div class="modal" id="confirmacao-modal">
-    <div class="modal-content">
+    <div class="modal-conteudo"> <!-- Ajustado para modal-conteudo para compatibilidade -->
       <h3>Confirmar Exclusão</h3>
       <p>Tem certeza que deseja excluir este produto? Esta ação não pode ser desfeita.</p>
-      <div class="modal-botoes">
+      <div class="modal-acoes"> <!-- Ajustado para modal-acoes para compatibilidade -->
         <button class="btn-cancelar">Cancelar</button>
         <button class="btn-confirmar">Confirmar Exclusão</button>
       </div>
@@ -234,11 +115,13 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <p>&copy; 2023 Minha Loja. Todos os direitos reservados.</p>
+      <p>© 2023 Minha Loja. Todos os direitos reservados.</p>
     </div>
   </footer>
 
   <!-- Scripts -->
-  <script src="/js/produtos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> <!-- Adicionado para suportar Axios -->
+  <script type="module" src="/js/api.js"></script> <!-- Usar type="module" para import -->
+  <script type="module" src="/js/produtos.js"></script> <!-- Usar type="module" para import -->
 </body>
 </html>
